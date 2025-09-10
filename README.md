@@ -15,7 +15,7 @@ pip install flask flask-restful flask-jwt-extended flask-cors sqlalchemy
 # Save dependencies
 pip freeze > requirements.txt
 
-# Create main app file nd run with
+# Create main app file and run with
 python app.py
 
 
