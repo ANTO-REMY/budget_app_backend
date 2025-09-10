@@ -1,10 +1,23 @@
-from flask import Flask # type: ignore
+from flask import Flask  # type: ignore
+from database import db   # import db from database.py
+from models import User, Category, Transaction  # import your models
+
 app = Flask(__name__)
 
+# Configure the database (SQLite for now)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///budget.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Initialize db with app
+db.init_app(app)
+
+# Test route (keep it)
 @app.route('/')
 def home():
     return 'Hello, Budget App Backend!'
 
 if __name__ == '__main__':
+    # Make sure tables exist before running
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
-
