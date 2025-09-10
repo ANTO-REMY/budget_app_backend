@@ -1,8 +1,13 @@
 from flask import Flask  # type: ignore
 from database import db   # import db from database.py
 from models import User, Category, Transaction  # import your models
+from flask_jwt_extended import JWTManager
+
 
 app = Flask(__name__)
+
+app.config['JWT_SECRET_KEY'] = '9512'  # change to env variable later
+jwt = JWTManager(app)
 
 # Configure the database (SQLite for now)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///budget.db"
@@ -10,6 +15,10 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # ✅ bind db 
 db.init_app(app)
+
+# Import blueprints
+from routes.auth import auth_bp
+app.register_blueprint(auth_bp)
 
 # Test route (keep it)
 @app.route('/')
