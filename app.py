@@ -20,6 +20,10 @@ db.init_app(app)
 from routes.auth import auth_bp
 app.register_blueprint(auth_bp)
 
+from routes.transactions import transactions_bp
+app.register_blueprint(transactions_bp)
+
+
 # Test route (keep it)
 @app.route('/')
 def home():
