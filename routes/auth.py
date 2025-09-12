@@ -9,6 +9,27 @@ auth_bp = Blueprint('auth', __name__)
 # Signup endpoint
 @auth_bp.route('/auth/signup', methods=['POST'])
 def signup():
+    """
+    User Signup
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+    responses:
+      200:
+        description: User successfully created
+      400:
+        description: User already exists
+    """
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -29,6 +50,29 @@ def signup():
 # Login endpoint
 @auth_bp.route('/auth/login', methods=['POST'])
 def login():
+    """
+    User Login
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+              example: kevin@example.com
+            password:
+              type: string
+              example: mysecurepassword
+    responses:
+      200:
+        description: Returns a JWT token if login successful
+      401:
+        description: Invalid credentials
+    """
     data = request.get_json()
     email = data.get('email')
     password = data.get('password')
@@ -39,5 +83,5 @@ def login():
         return jsonify({"error": "Invalid credentials"}), 401
 
     # Create JWT token
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(identity=str(user.id))
     return jsonify(access_token=access_token), 200
