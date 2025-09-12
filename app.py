@@ -9,7 +9,6 @@ from flasgger import Swagger
 app = Flask(__name__)
 
 app.config['JWT_SECRET_KEY'] = '9512'  # change to env variable later
-jwt = JWTManager(app)
 app.config['JWT_IDENTITY_CLAIM'] = 'sub'
 
 

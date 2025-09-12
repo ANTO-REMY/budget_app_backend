@@ -176,3 +176,5 @@ Follow the instructions for your operating system.
    ```bash
    sqlite3 --version
 
+## 📦 Install flasgger
+pip install flasgger
