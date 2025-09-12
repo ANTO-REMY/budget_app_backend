@@ -24,25 +24,29 @@ def get_transactions():
       401:
         description: Unauthorized (JWT missing/invalid)
     """
-    # ✅ Get the logged-in user's ID from the JWT
-    user_id = int(get_jwt_identity())
+    try:
+        # ✅ Convert identity back into integer for querying
+        user_id = int(get_jwt_identity())
 
-    # ✅ Query transactions belonging to that user
-    transactions = Transaction.query.filter_by(user_id=user.id).all()
+        # Fetch only this user's transactions
+        transactions = Transaction.query.filter_by(user_id=user_id).all()
 
-    # Convert results to list of dictionaries
-    result = []
-    for t in transactions:
-        result.append({
-            "id": t.id,
-            "amount": t.amount,
-            "type": t.type,
-            "category_id": t.category_id,
-            "date": t.date.isoformat() if t.date else None,
-            "note": t.note
-        })
+        result = []
+        for t in transactions:
+            result.append({
+                "id": t.id,
+                "amount": t.amount,
+                "type": t.type,
+                "category_id": t.category_id,
+                "date": t.date.isoformat() if t.date else None,  # ✅ safe conversion
+                "note": t.note
+            })
 
-    return jsonify(result), 200
+        return jsonify(result), 200
+
+    except Exception as e:
+        # ✅ return error details for debugging
+        return jsonify({"error": str(e)}), 500
 
 def new_func():
     user_id = get_jwt_identity()
