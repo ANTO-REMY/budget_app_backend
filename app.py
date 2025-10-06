@@ -1,6 +1,7 @@
 from flask import Flask  # type: ignore
 from database import db   # import db from database.py
-from models import User, Category, Transaction  # import your models
+from models import User, Category, Transaction, Budget, Goal, RecurringTransaction  # import your models
+import models_standard  # import advanced logic and analytics
 from flask_jwt_extended import JWTManager
 from flasgger import Swagger
 
@@ -24,18 +25,29 @@ db.init_app(app)
 jwt = JWTManager(app)
 
 
-# Import blueprints
-from routes.auth import auth_bp
+# Import blueprints from new structure
+from app.routes.auth_routes import auth_bp
+from app.routes.user_routes import user_bp
+from app.routes.category_routes import category_bp
+from app.routes.transaction_routes import transaction_bp
+from app.routes.budget_routes import budget_bp
+from app.routes.goal_routes import goal_bp
+from app.routes.recurring_routes import recurring_bp
+from app.routes.health_route import health_bp
+# Register all blueprints
 app.register_blueprint(auth_bp)
-
-from routes.transactions import transactions_bp
-app.register_blueprint(transactions_bp)
-
+app.register_blueprint(user_bp)
+app.register_blueprint(category_bp)
+app.register_blueprint(transaction_bp)
+app.register_blueprint(budget_bp)
+app.register_blueprint(goal_bp)
+app.register_blueprint(recurring_bp)
+app.register_blueprint(health_bp)
 
 # Test route (keep it)
 @app.route('/')
 def home():
-    return 'Hello, Budget App Backend!'
+    return {'message': 'Budgetter API v1.0', 'status': 'active'}
 
 if __name__ == '__main__':
     # Make sure tables exist before running
