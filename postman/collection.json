@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Budgetter API - Complete Collection",
-    "description": "Comprehensive API collection for Budgetter budget management app with all 6 tables",
-    "version": "2.0.0",
+    "name": "Budgetter API - Complete Collection (No Auth)",
+    "description": "Comprehensive API collection for Budgetter budget management app with all 6 tables - Authentication temporarily disabled for testing",
+    "version": "2.1.0",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -16,8 +16,9 @@
     },
     {
       "key": "access_token",
-      "value": "",
-      "type": "string"
+      "value": "NOT_REQUIRED_FOR_TESTING",
+      "type": "string",
+      "description": "Authentication temporarily disabled - no token needed"
     }
   ],
   "item": [
@@ -48,7 +49,8 @@
         ]
       },
     {
-      "name": "🔐 Authentication",
+      "name": "🔐 Authentication (Temporarily Disabled)",
+      "description": "⚠️ Authentication is temporarily disabled for testing. All endpoints work without Bearer tokens.",
       "item": [
         {
           "name": "Register User",
@@ -112,10 +114,10 @@
               "listen": "test",
               "script": {
                 "exec": [
+                  "// Authentication temporarily disabled - no token extraction needed",
                   "if (pm.response.code === 200) {",
-                  "    const response = pm.response.json();",
-                  "    pm.collectionVariables.set('access_token', response.data.access_token);",
-                  "    console.log('Access token saved:', response.data.access_token);",
+                  "    console.log('Login successful - but authentication is disabled for testing');",
+                  "    console.log('Response:', pm.response.json());",
                   "}"
                 ]
               }
@@ -752,7 +754,12 @@
           "// Auto-set base URL if not set",
           "if (!pm.collectionVariables.get('base_url')) {",
           "    pm.collectionVariables.set('base_url', 'http://localhost:5000');",
-          "}"
+          "}",
+          "",
+          "// Authentication Status Notice",
+          "console.log('🔓 AUTHENTICATION TEMPORARILY DISABLED');",
+          "console.log('All endpoints work without Bearer tokens for testing purposes.');",
+          "console.log('Default user_id = 1 is used for all authenticated operations.');"
         ]
       }
     },
